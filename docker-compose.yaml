@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - DEFAULT_EMAIL=makersupv@gmail.com
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  ghost:
+    image: ghost
+    restart: always
+    expose:
+      - "2368"
+    environment:
+      - url=https://makersupv.com
+      - VIRTUAL_HOST=makersupv.com
+      - LETSENCRYPT_HOST=makersupv.com
+    volumes:
+      - ./makersupv-ghost-theme:/var/lib/ghost/content/theme/
+volumes: 
+  certs:
+  html:
+  vhostd:
