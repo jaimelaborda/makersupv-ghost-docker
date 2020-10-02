@@ -37,7 +37,7 @@ services:
       - VIRTUAL_HOST=makersupv.com
       - LETSENCRYPT_HOST=makersupv.com
     volumes:
-      - ./makersupv-ghost-theme:/var/lib/ghost/content/theme/
+      - /opt/docker/makersupv-ghost-docker/ghost/content/:/var/lib/ghost/content/:rw
 volumes: 
   certs:
   html:
