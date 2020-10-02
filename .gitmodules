@@ -1,0 +1,3 @@
+[submodule "makersupv-ghost-theme"]
+	path = makersupv-ghost-theme
+	url = https://github.com/makers-upv/makersupv-ghost-theme.git
