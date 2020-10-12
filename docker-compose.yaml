@@ -41,7 +41,7 @@ services:
       - mail__options__auth__user=${GHOST_MAIL_OPTIONS_AUTH_USER}
       - mail__options__auth__pass=${GHOST_MAIL_OPTIONS_AUTH_PASS}
     volumes:
-      - /opt/docker/makersupv-ghost-docker/ghost/content/:/var/lib/ghost/content/:rw
+      - /var/lib/docker/makersupv-ghost-docker/ghost/content/:/var/lib/ghost/content/:rw
 volumes: 
   certs:
   html:
