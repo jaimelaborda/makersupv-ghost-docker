@@ -11,7 +11,7 @@ services:
       - certs:/etc/nginx/certs
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - vhostd:/etc/nginx/vhost.d:ro
+      - ./vhost.d:/etc/nginx/vhost.d:ro
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
 
@@ -23,7 +23,7 @@ services:
       - DEFAULT_EMAIL=makersupv@gmail.com
     volumes:
       - certs:/etc/nginx/certs
-      - vhostd:/etc/nginx/vhost.d
+      - ./vhost.d:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
@@ -72,6 +72,4 @@ volumes:
   node-red-sandbox-data:
   certs:
   html:
-  vhostd:
- 
 
