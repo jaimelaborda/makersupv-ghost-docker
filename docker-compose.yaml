@@ -42,7 +42,36 @@ services:
       - mail__options__auth__pass=${GHOST_MAIL_OPTIONS_AUTH_PASS}
     volumes:
       - /var/lib/docker/makersupv-ghost-docker/ghost/content/:/var/lib/ghost/content/:rw
+
+  nodered:
+    image: nodered/node-red
+    restart: always
+    expose: 
+      - "1880"
+    environment:
+      - VIRTUAL_HOST=nodered.makersupv.com
+      - LETSENCRYPT_HOST=nodered.makersupv.com
+    volumes:
+      - node-red-data:/data
+
+
+  nodered-sandbox:
+    image: nodered/node-red
+    restart: always
+    expose: 
+      - "1880"
+    environment:
+      - VIRTUAL_HOST=nodered-sandbox.makersupv.com
+      - LETSENCRYPT_HOST=nodered-sandbox.makersupv.com
+    volumes:
+      - node-red-sandbox-data:/data
+
+ 
 volumes: 
+  node-red-data:
+  node-red-sandbox-data:
   certs:
   html:
   vhostd:
+ 
+
