@@ -20,7 +20,7 @@ services:
     restart: always
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
-      - DEFAULT_EMAIL=makersupv@gmail.com
+      - DEFAULT_EMAIL=
     volumes:
       - certs:/etc/nginx/certs
       - ./vhost.d:/etc/nginx/vhost.d
@@ -33,15 +33,11 @@ services:
     expose:
       - "2368"
     environment:
-      - url=https://makersupv.com
-      - VIRTUAL_HOST=makersupv.com,www.makersupv.com
-      - LETSENCRYPT_HOST=makersupv.com,www.makersupv.com
-      - mail__transport=SMTP
-      - mail__options__service=Mailgun
-      - mail__options__auth__user=${GHOST_MAIL_OPTIONS_AUTH_USER}
-      - mail__options__auth__pass=${GHOST_MAIL_OPTIONS_AUTH_PASS}
+      - url=https://web.jaimelaborda.es
+      - VIRTUAL_HOST=web.jaimelaborda.es
+      - LETSENCRYPT_HOST=web.jaimelaborda.es
     volumes:
-      - /var/lib/docker/makersupv-ghost-docker/ghost/content/:/var/lib/ghost/content/:rw
+      - ./ghost/content/:/var/lib/ghost/content/:rw
 
   nodered:
     image: nodered/node-red
@@ -49,27 +45,36 @@ services:
     expose: 
       - "1880"
     environment:
-      - VIRTUAL_HOST=nodered.makersupv.com
-      - LETSENCRYPT_HOST=nodered.makersupv.com
+      - VIRTUAL_HOST=nodered.jaimelaborda.es
+      - LETSENCRYPT_HOST=nodered.jaimelaborda.es
     volumes:
       - node-red-data:/data
 
-
-  nodered-sandbox:
-    image: nodered/node-red
+  mail:
+    image: analogic/poste.io
     restart: always
-    expose: 
-      - "1880"
+    expose:
+      - "80"
+    ports: 
+      - "25:25"
+      - "110:110"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+      - "995:995"
+      - "4190:4190"
     environment:
-      - VIRTUAL_HOST=nodered-sandbox.makersupv.com
-      - LETSENCRYPT_HOST=nodered-sandbox.makersupv.com
+      - HTTPS=OFF
+      - DISABLE_CLAMAV=TRUE
+      - DISABLE_RSPAMD=TRUE
+      - VIRTUAL_HOST=mail.jaimelaborda.es
+      - LETSENCRYPT_HOST=mail.jaimelaborda.es
     volumes:
-      - node-red-sandbox-data:/data
-
+      - mail-data:/data
  
 volumes: 
   node-red-data:
-  node-red-sandbox-data:
   certs:
   html:
+  mail-data:
 
